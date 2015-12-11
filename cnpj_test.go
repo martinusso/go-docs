@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_CNPJAssertValid(t *testing.T) {
+func Test_AssertValid(t *testing.T) {
 	invalidSize := "123456789012345"
 	isValid, err := AssertValid(invalidSize)
 	if err == nil {
@@ -30,7 +30,7 @@ func Test_CNPJAssertValid(t *testing.T) {
 	}
 }
 
-func Test_CNPJValid(t *testing.T) {
+func Test_Valid(t *testing.T) {
 	validCNPJ := "99999999000191"
 	formattedCNPJ := "99.999.999/0001-91"
 	invalidCNPJ := "99999999000100"
@@ -54,5 +54,12 @@ func Test_CNPJValid(t *testing.T) {
 
 			t.Errorf("CNPJ is valid")
 		}
+	}
+}
+
+func Test_Generate(t *testing.T) {
+	got := Generate()
+	if !Valid(got) {
+		t.Errorf("CNPJ is not valid")
 	}
 }

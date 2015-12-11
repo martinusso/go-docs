@@ -3,8 +3,10 @@ package cnpj
 import (
 	"errors"
 	"math"
+	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -35,6 +37,26 @@ func AssertValid(cnpj string) (bool, error) {
 	}
 
 	return checkDigits(cnpj), nil
+}
+
+// Generate returns a random valid CNPJ
+func Generate() string {
+	rand.Seed(time.Now().UTC().UnixNano())
+
+	cnpj := make([]int, 12)
+	for i := 0; i < 12; i++ {
+		cnpj[i] = rand.Intn(9)
+	}
+	checkDigit1 := computeCheckDigit(cnpj)
+	cnpj = append(cnpj, checkDigit1)
+	checkDigit2 := computeCheckDigit(cnpj)
+	cnpj = append(cnpj, checkDigit2)
+
+	var str string
+	for _, value := range cnpj {
+		str += strconv.Itoa(value)
+	}
+	return str
 }
 
 func sanitize(data string) string {
