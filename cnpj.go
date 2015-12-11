@@ -25,6 +25,7 @@ func Valid(cnpj string) bool {
 // AssertValid validates the CNPJ returning a boolean and the error if any
 func AssertValid(cnpj string) (bool, error) {
 	cnpj = sanitize(cnpj)
+
 	if len(cnpj) != cnpjValidLength {
 		return false, errors.New(invalidLength)
 	}
@@ -33,13 +34,24 @@ func AssertValid(cnpj string) (bool, error) {
 		return false, errors.New(repeatedDigits)
 	}
 
+	return checkDigits(cnpj), nil
+}
+
+func sanitize(data string) string {
+	data = strings.Replace(data, ".", "", -1)
+	data = strings.Replace(data, "-", "", -1)
+	data = strings.Replace(data, "/", "", -1)
+	return data
+}
+
+func checkDigits(cnpj string) bool {
 	data := strings.Split(cnpj, "")
 
 	doc := make([]int, 12)
 	for i := 0; i <= 11; i++ {
 		digit, err := strconv.Atoi(data[i])
 		if err != nil {
-			return false, nil
+			return false
 		}
 		doc[i] = digit
 	}
@@ -50,14 +62,7 @@ func AssertValid(cnpj string) (bool, error) {
 
 	checkDigit1IsValid := strconv.Itoa(checkDigit1) == string(data[12])
 	checkDigit2IsValid := strconv.Itoa(checkDigit2) == string(data[13])
-	return checkDigit1IsValid && checkDigit2IsValid, nil
-}
-
-func sanitize(data string) string {
-	data = strings.Replace(data, ".", "", -1)
-	data = strings.Replace(data, "-", "", -1)
-	data = strings.Replace(data, "/", "", -1)
-	return data
+	return checkDigit1IsValid && checkDigit2IsValid
 }
 
 func computeCheckDigit(doc []int) int {
