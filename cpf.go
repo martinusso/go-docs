@@ -3,6 +3,7 @@ package cpf
 import (
 	"errors"
 	"math"
+	"math/rand"
 	"strconv"
 	"strings"
 )
@@ -36,7 +37,24 @@ func AssertValid(cpf string) (bool, error) {
 	}
 
 	return checkDigits(cpf), nil
+}
 
+// Generate returns a random valid CPF
+func Generate() string {
+	data := make([]int, 9)
+	for i := 0; i < 9; i++ {
+		data[i] = rand.Intn(9)
+	}
+	checkDigit1 := computeCheckDigit(data)
+	data = append(data, checkDigit1)
+	checkDigit2 := computeCheckDigit(data)
+	data = append(data, checkDigit2)
+
+	var cpf string
+	for _, value := range data {
+		cpf += strconv.Itoa(value)
+	}
+	return cpf
 }
 
 func sanitize(data string) string {

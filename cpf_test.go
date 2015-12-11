@@ -59,3 +59,10 @@ func Test_Valid(t *testing.T) {
 		}
 	}
 }
+
+func Test_Generate(t *testing.T) {
+	got := Generate()
+	if !Valid(got) {
+		t.Errorf("Generated CPF should be valid")
+	}
+}
