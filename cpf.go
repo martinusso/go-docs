@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -41,6 +42,8 @@ func AssertValid(cpf string) (bool, error) {
 
 // Generate returns a random valid CPF
 func Generate() string {
+	rand.Seed(time.Now().UTC().UnixNano())
+
 	data := make([]int, 9)
 	for i := 0; i < 9; i++ {
 		data[i] = rand.Intn(9)
