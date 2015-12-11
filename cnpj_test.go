@@ -35,23 +35,22 @@ func Test_Valid(t *testing.T) {
 	formattedCNPJ := "99.999.999/0001-91"
 	invalidCNPJ := "99999999000100"
 
-	if got := Valid(validCNPJ); got != true {
+	if !Valid(validCNPJ) {
 		t.Errorf("CNPJ is not valid")
 	}
 
-	if got := Valid(formattedCNPJ); got != true {
+	if !Valid(formattedCNPJ) {
 		t.Errorf("CNPJ is not valid")
 	}
 
-	if got := Valid(invalidCNPJ); got != false {
+	if Valid(invalidCNPJ) {
 		t.Errorf("CNPJ is valid")
 	}
 
 	for i := 0; i <= 9; i++ {
 		invalidCNPJ := strings.Repeat(string(i), 14)
 
-		if got := Valid(invalidCNPJ); got != false {
-
+		if Valid(invalidCNPJ) {
 			t.Errorf("CNPJ is valid")
 		}
 	}
