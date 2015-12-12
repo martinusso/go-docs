@@ -1,3 +1,4 @@
+// Package cpf contains validation and generation of CPF
 package cpf
 
 import (

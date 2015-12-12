@@ -1,7 +1,4 @@
-/*
-CNPJ validator and generator
-*/
-
+// Package cnpj contains validation and generation of CNPJ
 package cnpj
 
 import (
