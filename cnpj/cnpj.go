@@ -1,4 +1,6 @@
-// CNPJ validator and generator
+/*
+CNPJ validator and generator
+*/
 
 package cnpj
 

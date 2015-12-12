@@ -1,4 +1,6 @@
-// CPF validator and generator
+/*
+CPF validator and generator
+*/
 
 package cpf
 
