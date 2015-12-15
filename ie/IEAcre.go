@@ -1,4 +1,3 @@
-// Validação da IE do Acre
 // ROTEIRO DE CRÍTICA DA INSCRIÇÃO ESTADUAL:
 //   http://www.sintegra.gov.br/Cad_Estados/cad_AC.html
 
@@ -15,7 +14,12 @@ const (
 	firstDigitsError = "Os primeiros dois dígitos são sempre 01"
 )
 
-func assertValidIEAcre(ie []int) (bool, error) {
+// Acre IE
+type Acre struct {
+}
+
+// AssertValid validates the Acre IE returning a boolean and the error if any
+func (ieAcre Acre) AssertValid(ie []int) (bool, error) {
 	// validating the length
 	if len(ie) != ieAcreLenght {
 		return false, errors.New(ieLenghtError)
@@ -23,7 +27,6 @@ func assertValidIEAcre(ie []int) (bool, error) {
 	// validating the first digits
 	if strconv.Itoa(ie[0])+strconv.Itoa(ie[1]) != firstDigits {
 		return false, errors.New(firstDigitsError)
-
 	}
 
 	checkDigit1 := computeCheckDigit(ie[:len(ie)-2])

@@ -13,6 +13,12 @@ const (
 	invalidCheckDigits = "Dígito Verificador inválido"
 )
 
+// IE interface to validation and generation of IE
+type IE interface {
+	AssertValid(ie []int) (bool, error)
+	Generate(uf string) string
+}
+
 // Valid validates the IE returning a boolean
 func Valid(ie, uf string) bool {
 	uf = strings.ToUpper(uf)
@@ -33,7 +39,7 @@ func AssertValid(ie, uf string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	return assertValidIEAcre(numbers)
+	return Acre{}.AssertValid(numbers)
 }
 
 // Generate returns a random valid IE
