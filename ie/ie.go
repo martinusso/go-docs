@@ -102,27 +102,3 @@ func computeCheckDigit(data []int) int {
 	}
 	return r
 }
-
-/*
-private string GetDigitSum()
-        {
-            int soma = 0;
-            for (int i = this.numero.Length - 1, m = 0; i >= 0; i--)
-            {
-                int produto = (int)char.GetNumericValue(this.numero[i]) * this.multiplicadores[m];
-                soma += somarAlgarismos ? SomaAlgarismos(produto) : produto;
-
-                if (++m >= this.multiplicadores.Count) m = 0;
-            }
-
-            int mod = (soma % modulo);
-            int resultado = complementarDoModulo ? modulo - mod : mod;
-
-            if (substituicoes.ContainsKey(resultado))
-            {
-                return this.substituicoes[resultado];
-            }
-
-            return resultado.ToString();
-        }
-*/
