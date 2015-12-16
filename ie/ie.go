@@ -10,9 +10,14 @@ import (
 )
 
 const (
-	invalidUF          = "UF inválida."
-	ieLenghtError      = "Tamanho da IE inválido."
-	invalidCheckDigits = "Dígito Verificador inválido"
+	invalidUF           = "UF inválida."
+	ieLenghtError       = "Tamanho da IE inválido."
+	invalidCheckDigits  = "Dígito Verificador inválido"
+	firstDigitsError    = "Incorrect first digits"
+	fmtfirstDigitsError = "Os primeiros dois dígitos são sempre %s"
+
+	ufAcre    = "AC"
+	ufAlagoas = "AL"
 )
 
 // IE interface to validation and generation of IE
@@ -33,15 +38,19 @@ func Valid(ie, uf string) bool {
 // AssertValid validates the IE returning a boolean and the error if any
 func AssertValid(ie, uf string) (bool, error) {
 	uf = strings.ToUpper(uf)
-	if !validateUF(uf) {
-		return false, errors.New(invalidUF)
-	}
 	ie = sanitize(ie)
 	numbers, err := assignStringToNumbers(ie)
 	if err != nil {
 		return false, err
 	}
-	return Acre{}.AssertValid(numbers)
+	switch uf {
+	case ufAcre:
+		return Acre{}.AssertValid(numbers)
+	case ufAlagoas:
+		return Alagoas{}.assertValid(numbers)
+	default:
+		return false, errors.New(invalidUF)
+	}
 }
 
 // Generate returns a random valid IE
