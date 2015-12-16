@@ -12,12 +12,12 @@ func Test_IEAcreLenght(t *testing.T) {
 	ieAcre := Acre{}
 	i, _ := assignStringToNumbers("123456789012")
 
-	if _, err := ieAcre.AssertValid(i); err == nil {
+	if _, err := ieAcre.assertValid(i); err == nil {
 		t.Errorf("Unexpected success. Expected '%s'", ieLenghtError)
 	}
 
 	i, _ = assignStringToNumbers("12345678901234")
-	if _, err := ieAcre.AssertValid(i); err == nil {
+	if _, err := ieAcre.assertValid(i); err == nil {
 		t.Errorf("Unexpected success. Expected '%s'", ieLenghtError)
 	}
 }
@@ -26,7 +26,7 @@ func Test_IEAcreFirstDigits(t *testing.T) {
 	ieAcre := Acre{}
 
 	i, _ := assignStringToNumbers("1234567890123")
-	if _, err := ieAcre.AssertValid(i); err == nil {
+	if _, err := ieAcre.assertValid(i); err == nil {
 		t.Errorf("Unexpected success. Expected '%s'", firstDigitsError)
 	}
 }
@@ -35,7 +35,7 @@ func Test_IEAcreCheckDigits(t *testing.T) {
 	ieAcre := Acre{}
 
 	invalidIE, _ := assignStringToNumbers("0100482300122")
-	if _, err := ieAcre.AssertValid(invalidIE); err == nil {
+	if _, err := ieAcre.assertValid(invalidIE); err == nil {
 		t.Errorf("Unexpected success. Expected '%s'", invalidCheckDigits)
 	}
 }

@@ -19,8 +19,7 @@ const (
 type Acre struct {
 }
 
-// AssertValid validates the Acre IE returning a boolean and the error if any
-func (ieAcre Acre) AssertValid(ie []int) (bool, error) {
+func (ieAcre Acre) assertValid(ie []int) (bool, error) {
 	// validating the length
 	if len(ie) != ieAcreLenght {
 		return false, errors.New(ieLenghtError)
@@ -38,8 +37,7 @@ func (ieAcre Acre) AssertValid(ie []int) (bool, error) {
 	return true, nil
 }
 
-// Generate returns a random valid Acre IE
-func (ieAcre Acre) Generate() []int {
+func (ieAcre Acre) generate() []int {
 	ie := make([]int, ieAcreLenght-2)
 
 	// fist digits

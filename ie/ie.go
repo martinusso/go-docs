@@ -22,8 +22,8 @@ const (
 
 // IE interface to validation and generation of IE
 type IE interface {
-	AssertValid(ie []int) (bool, error)
-	Generate() string
+	assertValid(ie []int) (bool, error)
+	generate() string
 }
 
 // Valid validates the IE returning a boolean
@@ -45,7 +45,7 @@ func AssertValid(ie, uf string) (bool, error) {
 	}
 	switch uf {
 	case ufAcre:
-		return Acre{}.AssertValid(numbers)
+		return Acre{}.assertValid(numbers)
 	case ufAlagoas:
 		return Alagoas{}.assertValid(numbers)
 	default:
@@ -62,7 +62,7 @@ func Generate(uf string) (string, error) {
 		return "", errors.New(invalidUF)
 	}
 
-	numbers := Acre{}.Generate()
+	numbers := Acre{}.generate()
 
 	var str string
 	for _, value := range numbers {
