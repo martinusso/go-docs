@@ -9,7 +9,14 @@ func Test_AssertValid(t *testing.T) {
 	}
 }
 
-func Test_AssignStringToIntArray(t *testing.T) {
+func Test_Generate(t *testing.T) {
+	_, err := Generate("XX")
+	if err == nil {
+		t.Errorf("Unexpected success. Expected '%s'", invalidUF)
+	}
+}
+
+func Test_AssignStringToNumbers(t *testing.T) {
 	a, _ := assignStringToNumbers("123")
 	if len(a) != 3 {
 		t.Errorf("Invalid Lenght. Expected '%d' got '%d'", 3, len(a))

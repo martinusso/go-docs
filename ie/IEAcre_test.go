@@ -2,6 +2,10 @@ package ie
 
 import "testing"
 
+const (
+	ufAcre = "AC"
+)
+
 var (
 	validsIEAcre = [8]string{"01.004.823/001-12", "01.004.141/001-46",
 		"01.001.349/001-77", "01.956.867/001-07", "01.379.333/036-16",
@@ -49,5 +53,12 @@ func Test_AssertValidWithIEAcre(t *testing.T) {
 		if err != nil {
 			t.Errorf("IE '%s' should be valid. Error: %s", ie, err.Error())
 		}
+	}
+}
+
+func Test_GenerateIEAcre(t *testing.T) {
+	got, _ := Generate(ufAcre)
+	if !Valid(got, ufAcre) {
+		t.Errorf("IE %s is not valid", got)
 	}
 }

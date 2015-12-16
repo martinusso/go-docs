@@ -3,8 +3,10 @@ package ie
 import (
 	"errors"
 	"math"
+	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -16,12 +18,11 @@ const (
 // IE interface to validation and generation of IE
 type IE interface {
 	AssertValid(ie []int) (bool, error)
-	Generate(uf string) string
+	Generate() string
 }
 
 // Valid validates the IE returning a boolean
 func Valid(ie, uf string) bool {
-	uf = strings.ToUpper(uf)
 	isValid, err := AssertValid(ie, uf)
 	if err != nil {
 		return false
@@ -31,6 +32,7 @@ func Valid(ie, uf string) bool {
 
 // AssertValid validates the IE returning a boolean and the error if any
 func AssertValid(ie, uf string) (bool, error) {
+	uf = strings.ToUpper(uf)
 	if !validateUF(uf) {
 		return false, errors.New(invalidUF)
 	}
@@ -43,8 +45,21 @@ func AssertValid(ie, uf string) (bool, error) {
 }
 
 // Generate returns a random valid IE
-func Generate(uf string) string {
-	return ""
+func Generate(uf string) (string, error) {
+	rand.Seed(time.Now().UTC().UnixNano())
+
+	uf = strings.ToUpper(uf)
+	if !validateUF(uf) {
+		return "", errors.New(invalidUF)
+	}
+
+	numbers := Acre{}.Generate()
+
+	var str string
+	for _, value := range numbers {
+		str += strconv.Itoa(value)
+	}
+	return str, nil
 }
 
 func sanitize(data string) string {

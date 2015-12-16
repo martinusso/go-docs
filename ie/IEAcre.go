@@ -5,6 +5,7 @@ package ie
 
 import (
 	"errors"
+	"math/rand"
 	"strconv"
 )
 
@@ -35,4 +36,26 @@ func (ieAcre Acre) AssertValid(ie []int) (bool, error) {
 		return false, errors.New(invalidCheckDigits)
 	}
 	return true, nil
+}
+
+// Generate returns a random valid Acre IE
+func (ieAcre Acre) Generate() []int {
+	ie := make([]int, ieAcreLenght-2)
+
+	// fist digits
+	ie[0] = 0
+	ie[1] = 1
+
+	// random numbers
+	for i := 2; i < ieAcreLenght-2; i++ {
+		ie[i] = rand.Intn(9)
+	}
+
+	// check digits
+	checkDigit1 := computeCheckDigit(ie)
+	ie = append(ie, checkDigit1)
+	checkDigit2 := computeCheckDigit(ie)
+	ie = append(ie, checkDigit2)
+
+	return ie
 }
