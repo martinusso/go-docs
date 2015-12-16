@@ -6,12 +6,14 @@ package ie
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 	"strconv"
 )
 
 const (
+	alagoasIELenght      = 9
 	alagoasIEfirstDigits = "24"
-	companyTypeError     = "Tipo de empresa inválido."
+	invalidCompanyType   = "Tipo de empresa inválido."
 )
 
 var (
@@ -37,12 +39,33 @@ func (ieAlagoas Alagoas) assertValid(ie []int) (bool, error) {
 		}
 	}
 	if !companyTypeIsValid {
-		return false, fmt.Errorf(fmtfirstDigitsError, alagoasIEfirstDigits)
+		return false, errors.New(invalidCompanyType)
 	}
 
-	checkDigit1 := computeCheckDigit(ie[:len(ie)-1])
-	if checkDigit1 != ie[len(ie)-1] {
+	checkDigit := computeCheckDigit(ie[:len(ie)-1])
+	if checkDigit != ie[len(ie)-1] {
 		return false, errors.New(invalidCheckDigits)
 	}
 	return true, nil
+}
+
+func (ieAlagoas Alagoas) generate() []int {
+	ie := make([]int, alagoasIELenght-1)
+
+	// fist digits
+	ie[0] = 2
+	ie[1] = 4
+
+	// company type
+	ie[2] = companyType[rand.Intn(5)]
+
+	// random numbers
+	for i := 3; i < alagoasIELenght-1; i++ {
+		ie[i] = rand.Intn(9)
+	}
+
+	// check digits
+	checkDigit := computeCheckDigit(ie)
+
+	return append(ie, checkDigit)
 }

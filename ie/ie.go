@@ -23,7 +23,7 @@ const (
 // IE interface to validation and generation of IE
 type IE interface {
 	assertValid(ie []int) (bool, error)
-	generate() string
+	generate() []int
 }
 
 // Valid validates the IE returning a boolean
@@ -39,10 +39,12 @@ func Valid(ie, uf string) bool {
 func AssertValid(ie, uf string) (bool, error) {
 	uf = strings.ToUpper(uf)
 	ie = sanitize(ie)
+
 	numbers, err := assignStringToNumbers(ie)
 	if err != nil {
 		return false, err
 	}
+
 	switch uf {
 	case ufAcre:
 		return Acre{}.assertValid(numbers)
@@ -58,11 +60,16 @@ func Generate(uf string) (string, error) {
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	uf = strings.ToUpper(uf)
-	if !validateUF(uf) {
+
+	var numbers []int
+	switch uf {
+	case ufAcre:
+		numbers = Acre{}.generate()
+	case ufAlagoas:
+		numbers = Alagoas{}.generate()
+	default:
 		return "", errors.New(invalidUF)
 	}
-
-	numbers := Acre{}.generate()
 
 	var str string
 	for _, value := range numbers {
@@ -76,19 +83,6 @@ func sanitize(data string) string {
 	data = strings.Replace(data, "-", "", -1)
 	data = strings.Replace(data, "/", "", -1)
 	return data
-}
-
-func validateUF(uf string) bool {
-	ufs := [27]string{"AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA",
-		"MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RR", "RO", "RS",
-		"SC", "SE", "SP", "TO"}
-
-	for _, a := range ufs {
-		if a == uf {
-			return true
-		}
-	}
-	return false
 }
 
 func assignStringToNumbers(data string) ([]int, error) {
