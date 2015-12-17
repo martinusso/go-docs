@@ -42,7 +42,8 @@ func (ieAlagoas Alagoas) assertValid(ie []int) (bool, error) {
 		return false, errors.New(invalidCompanyType)
 	}
 
-	checkDigit := computeCheckDigit(ie[:len(ie)-1])
+	// check digit
+	checkDigit := computeCheckDigit(ie[:len(ie)-1], rulesDefault)
 	if checkDigit != ie[len(ie)-1] {
 		return false, errors.New(invalidCheckDigits)
 	}
@@ -65,7 +66,7 @@ func (ieAlagoas Alagoas) generate() []int {
 	}
 
 	// check digits
-	checkDigit := computeCheckDigit(ie)
+	checkDigit := computeCheckDigit(ie, rulesDefault)
 
 	return append(ie, checkDigit)
 }

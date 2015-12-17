@@ -18,6 +18,7 @@ const (
 
 	ufAcre    = "AC"
 	ufAlagoas = "AL"
+	ufAmapa   = "AP"
 )
 
 // IE interface to validation and generation of IE
@@ -50,6 +51,8 @@ func AssertValid(ie, uf string) (bool, error) {
 		return Acre{}.assertValid(numbers)
 	case ufAlagoas:
 		return Alagoas{}.assertValid(numbers)
+	case ufAmapa:
+		return Amapa{}.assertValid(numbers)
 	default:
 		return false, errors.New(invalidUF)
 	}
@@ -98,8 +101,13 @@ func assignStringToNumbers(data string) ([]int, error) {
 	return a, nil
 }
 
-func computeCheckDigit(data []int) int {
-	multipliers := [8]int{2, 3, 4, 5, 6, 7, 8, 9}
+func computeCheckDigit(data []int, rules rules) int {
+	lenghtMultipliers := rules.finalMultiplier - rules.initialMultiplier + 1
+	multipliers := make([]int, lenghtMultipliers)
+	for i, m := 0, rules.initialMultiplier; m <= rules.finalMultiplier; i++ {
+		multipliers[i] = m
+		m++
+	}
 	modulus := 11
 	sum := 0
 
@@ -114,9 +122,14 @@ func computeCheckDigit(data []int) int {
 
 	mod := int(math.Mod(float64(sum), 11))
 	r := modulus - mod
-
-	if r > 9 {
-		return 0
+	// fmt.Println("10", rules.substitute10)
+	// fmt.Println("11", rules.substitute11)
+	switch r {
+	case 10:
+		return rules.substitute10
+	case 11:
+		return rules.substitute11
+	default:
+		return r
 	}
-	return r
 }

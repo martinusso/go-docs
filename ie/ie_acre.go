@@ -29,8 +29,8 @@ func (ieAcre Acre) assertValid(ie []int) (bool, error) {
 		return false, fmt.Errorf(fmtfirstDigitsError, acreIEfirstDigits)
 	}
 
-	checkDigit1 := computeCheckDigit(ie[:len(ie)-2])
-	checkDigit2 := computeCheckDigit(ie[:len(ie)-1])
+	checkDigit1 := computeCheckDigit(ie[:len(ie)-2], rulesDefault)
+	checkDigit2 := computeCheckDigit(ie[:len(ie)-1], rulesDefault)
 	if checkDigit1 != ie[len(ie)-2] || checkDigit2 != ie[len(ie)-1] {
 		return false, errors.New(invalidCheckDigits)
 	}
@@ -50,9 +50,9 @@ func (ieAcre Acre) generate() []int {
 	}
 
 	// check digits
-	checkDigit1 := computeCheckDigit(ie)
+	checkDigit1 := computeCheckDigit(ie, rulesDefault)
 	ie = append(ie, checkDigit1)
-	checkDigit2 := computeCheckDigit(ie)
+	checkDigit2 := computeCheckDigit(ie, rulesDefault)
 	ie = append(ie, checkDigit2)
 
 	return ie
