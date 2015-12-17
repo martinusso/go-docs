@@ -6,6 +6,7 @@ package ie
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 	"strconv"
 )
 
@@ -42,6 +43,30 @@ func (ieAmapa Amapa) assertValid(ie []int) (bool, error) {
 		return false, errors.New(invalidCheckDigits)
 	}
 	return true, nil
+}
+
+func (ieAmapa Amapa) generate() []int {
+	ie := make([]int, alagoasIELenght)
+
+	// fist digits
+	ie[0] = 0
+	ie[1] = 3
+
+	// random numbers
+	for i := 2; i < alagoasIELenght; i++ {
+		ie[i] = rand.Intn(9)
+	}
+
+	p, d := getPandD(ie)
+
+	newIE := make([]int, len(ie))
+	copy(newIE, ie)
+	newIE[len(newIE)-1] = p
+
+	// check digits
+	checkDigit := computeCheckDigit(newIE, getRulesAmapa(d))
+	ie[len(ie)-1] = checkDigit
+	return ie
 }
 
 func getPandD(ie []int) (int, int) {

@@ -49,3 +49,10 @@ func Test_AssertValidWithAmapaIE(t *testing.T) {
 		}
 	}
 }
+
+func Test_GenerateAmapaIE(t *testing.T) {
+	got, _ := Generate(ufAmapa)
+	if !Valid(got, ufAmapa) {
+		t.Errorf("IE %s is not valid", got)
+	}
+}

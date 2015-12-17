@@ -70,6 +70,8 @@ func Generate(uf string) (string, error) {
 		numbers = Acre{}.generate()
 	case ufAlagoas:
 		numbers = Alagoas{}.generate()
+	case ufAmapa:
+		numbers = Amapa{}.generate()
 	default:
 		return "", errors.New(invalidUF)
 	}
