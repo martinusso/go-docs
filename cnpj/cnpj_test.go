@@ -6,8 +6,7 @@ import (
 )
 
 func Test_AssertValid(t *testing.T) {
-	invalidSize := "123456789012345"
-	isValid, err := AssertValid(invalidSize)
+	isValid, err := AssertValid("123456789012345")
 	if err == nil {
 		t.Errorf("Shouldn't be nil")
 	}
@@ -31,25 +30,22 @@ func Test_AssertValid(t *testing.T) {
 }
 
 func Test_Valid(t *testing.T) {
-	validCNPJ := "99999999000191"
-	formattedCNPJ := "99.999.999/0001-91"
-	invalidCNPJ := "99999999000100"
-
-	if !Valid(validCNPJ) {
-		t.Errorf("CNPJ is not valid")
+	if !Valid("1234567890") {
+		t.Errorf("Test Failed. CNPJ length must de invalid")
+	}
+	if Valid("99999999000100") {
+		t.Errorf("Test Failed. CNPJ %s must be invalid.", "99999999000100")
 	}
 
-	if !Valid(formattedCNPJ) {
-		t.Errorf("CNPJ is not valid")
-	}
-
-	if Valid(invalidCNPJ) {
-		t.Errorf("CNPJ is valid")
+	listOfValidCNPJ := []string{"99999999000191", "99.999.999/0001-91", "20.717.607/0001-02"}
+	for _, cnpj := range listOfValidCNPJ {
+		if !Valid(cnpj) {
+			t.Errorf("Test Failed. CNPJ %s must be valid.", cnpj)
+		}
 	}
 
 	for i := 0; i <= 9; i++ {
 		invalidCNPJ := strings.Repeat(string(i), 14)
-
 		if Valid(invalidCNPJ) {
 			t.Errorf("CNPJ is valid")
 		}
