@@ -6,8 +6,7 @@ import (
 )
 
 func Test_AssertValid(t *testing.T) {
-	invalidSize := "123456789012345"
-	isValid, err := AssertValid(invalidSize)
+	isValid, err := AssertValid("123456789012345")
 	if err == nil {
 		t.Errorf("Shouldn't be nil")
 	}
@@ -36,19 +35,18 @@ func Test_AssertValid(t *testing.T) {
 }
 
 func Test_Valid(t *testing.T) {
-	validCPF := "52998224725"
-	formattedCPF := "529.982.247-25"
-	invalidCPF := "52295224717"
-
-	if !Valid(validCPF) {
-		t.Errorf("CPF should be valid")
+	listOfValidCPF := []string{"52998224725", "529.982.247-25"}
+	for _, cpf := range listOfValidCPF {
+		if !Valid(cpf) {
+			t.Errorf("Test Failed. CPF %s must be valid.", cpf)
+		}
 	}
 
-	if !Valid(formattedCPF) {
-		t.Errorf("Formatted CPF should be valid")
+	if Valid("12E45678901") {
+		t.Errorf("Test Failed. Only numbers are allowed.")
 	}
 
-	if Valid(invalidCPF) {
+	if Valid("52295224717") {
 		t.Errorf("CPF Shouldn't be valid")
 	}
 
