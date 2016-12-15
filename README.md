@@ -4,6 +4,7 @@
 
 [![Circle CI](https://circleci.com/gh/martinusso/go-docs.svg?style=svg)](https://circleci.com/gh/martinusso/go-docs)
 [![Build Status](https://travis-ci.org/martinusso/go-docs.svg?branch=master)](https://travis-ci.org/martinusso/go-docs)
+[![Coverage Status](https://coveralls.io/repos/github/martinusso/go-docs/badge.svg?branch=master)](https://coveralls.io/github/martinusso/go-docs?branch=master)
 [![GoDoc](https://godoc.org/github.com/martinusso/go-docs?status.svg)](https://godoc.org/github.com/martinusso/go-docs)
 
 ## License
