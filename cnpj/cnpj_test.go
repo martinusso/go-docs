@@ -1,11 +1,12 @@
 package cnpj
 
 import (
+	"strconv"
 	"strings"
 	"testing"
 )
 
-func Test_AssertValid(t *testing.T) {
+func TestAssertValid(t *testing.T) {
 	isValid, err := AssertValid("123456789012345")
 	if err == nil {
 		t.Errorf("Shouldn't be nil")
@@ -29,8 +30,8 @@ func Test_AssertValid(t *testing.T) {
 	}
 }
 
-func Test_Valid(t *testing.T) {
-	if !Valid("1234567890") {
+func TestValid(t *testing.T) {
+	if Valid("1234567890") {
 		t.Errorf("Test Failed. CNPJ length must de invalid")
 	}
 	if Valid("99999999000100") {
@@ -45,14 +46,14 @@ func Test_Valid(t *testing.T) {
 	}
 
 	for i := 0; i <= 9; i++ {
-		invalidCNPJ := strings.Repeat(string(i), 14)
+		invalidCNPJ := strings.Repeat(strconv.Itoa(i), 14)
 		if Valid(invalidCNPJ) {
-			t.Errorf("CNPJ is valid")
+			t.Errorf("CNPJ is invalid (%s)", invalidCNPJ)
 		}
 	}
 }
 
-func Test_Generate(t *testing.T) {
+func TestGenerate(t *testing.T) {
 	got := Generate()
 	if !Valid(got) {
 		t.Errorf("CNPJ is not valid")

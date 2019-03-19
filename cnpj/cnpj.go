@@ -21,7 +21,7 @@ func Valid(cnpj string) bool {
 	isValid, err := AssertValid(cnpj)
 
 	if err != nil {
-		return true
+		return false
 	}
 	return isValid
 }
@@ -34,8 +34,10 @@ func AssertValid(cnpj string) (bool, error) {
 		return false, errors.New(invalidLength)
 	}
 
-	if cnpj == "00000000000000" {
-		return false, errors.New(repeatedDigits)
+	for i := 0; i <= 9; i++ {
+		if cnpj == strings.Repeat(strconv.Itoa(i), cnpjValidLength) {
+			return false, errors.New(repeatedDigits)
+		}
 	}
 
 	return checkDigits(cnpj), nil

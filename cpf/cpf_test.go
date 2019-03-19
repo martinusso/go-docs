@@ -1,11 +1,12 @@
 package cpf
 
 import (
+	"strconv"
 	"strings"
 	"testing"
 )
 
-func Test_AssertValid(t *testing.T) {
+func TestAssertValid(t *testing.T) {
 	isValid, err := AssertValid("123456789012345")
 	if err == nil {
 		t.Errorf("Shouldn't be nil")
@@ -18,7 +19,7 @@ func Test_AssertValid(t *testing.T) {
 	}
 
 	for i := 0; i <= 9; i++ {
-		invalidCPF := strings.Repeat(string(i), 11)
+		invalidCPF := strings.Repeat(strconv.Itoa(i), 11)
 
 		isValid, err = AssertValid(invalidCPF)
 		if err == nil {
@@ -34,7 +35,7 @@ func Test_AssertValid(t *testing.T) {
 	isValid, err = AssertValid("00000000000000")
 }
 
-func Test_Valid(t *testing.T) {
+func TestValid(t *testing.T) {
 	listOfValidCPF := []string{"52998224725", "529.982.247-25"}
 	for _, cpf := range listOfValidCPF {
 		if !Valid(cpf) {
@@ -51,14 +52,14 @@ func Test_Valid(t *testing.T) {
 	}
 
 	for i := 0; i <= 9; i++ {
-		invalidCPF := strings.Repeat(string(i), 11)
+		invalidCPF := strings.Repeat(strconv.Itoa(i), 11)
 		if Valid(invalidCPF) {
 			t.Errorf("CPF can't be consist by repeated numbers.")
 		}
 	}
 }
 
-func Test_Generate(t *testing.T) {
+func TestGenerate(t *testing.T) {
 	got := Generate()
 	if !Valid(got) {
 		t.Errorf("Generated CPF should be valid")

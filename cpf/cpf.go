@@ -31,13 +31,11 @@ func AssertValid(cpf string) (bool, error) {
 	if len(cpf) != cpfValidLength {
 		return false, errors.New(invalidLength)
 	}
-
 	for i := 0; i <= 9; i++ {
-		if cpf == strings.Repeat(string(i), 11) {
+		if cpf == strings.Repeat(strconv.Itoa(i), 11) {
 			return false, errors.New(repeatedDigits)
 		}
 	}
-
 	return checkDigits(cpf), nil
 }
 
