@@ -49,6 +49,14 @@ func Generate() string {
 
 	cnpj := make([]int, 12)
 	for i := 0; i < 12; i++ {
+		if i >= 8 && i <= 10 {
+			cnpj[i] = 0
+			continue
+		}
+		if i == 11 {
+			cnpj[i] = 1
+			continue
+		}
 		cnpj[i] = rand.Intn(9)
 	}
 	checkDigit1 := computeCheckDigit(cnpj)
